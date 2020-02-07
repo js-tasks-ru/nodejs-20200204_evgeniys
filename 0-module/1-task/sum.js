@@ -1,5 +1,8 @@
 function sum(a, b) {
-  /* ваш код */
+  if (!Number.isInteger(a) || !Number.isInteger(b)) {
+    throw new TypeError('Incorrect parameter type');
+  }
+  return a + b;
 }
 
 module.exports = sum;
