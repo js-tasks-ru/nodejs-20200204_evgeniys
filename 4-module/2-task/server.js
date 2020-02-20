@@ -21,7 +21,6 @@ server.on('request', (req, res) => {
 
   req
       .on('error', (err) => {
-        console.log('An error has been occured');
         res.statusCode = 500;
         res.end('Internal server error occured');
       })
