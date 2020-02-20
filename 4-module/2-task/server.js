@@ -25,14 +25,9 @@ server.on('request', (req, res) => {
         res.end('Internal server error occured');
       })
       .on('close', () => {
-        if (req.readableEnded) return;
+        if (req.complete) return;
         ws.destroy();
-        fs.access(filepath, fs.constants.F_OK, (err)=>{
-          if (err) {
-            return;
-          }
-          fs.unlinkSync(filepath);
-        });
+        fs.unlinkSync(filepath);
       });
 
   switch (req.method) {
