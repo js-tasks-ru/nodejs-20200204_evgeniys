@@ -29,6 +29,17 @@ server.on('request', (req, res) => {
         ws.destroy();
         fs.unlinkSync(filepath);
       });
+  ws.on('error', (err) => {
+    if (err.code === 'EEXIST') {
+      res.statusCode = 409;
+      res.end('File already exist!');
+    }
+    res.statusCode = 500;
+    res.end('Internal Error');
+  }).on('close', () => {
+    res.statusCode = 201;
+    res.end('File has been uploaded');
+  });
 
   switch (req.method) {
     case 'POST':
@@ -40,17 +51,7 @@ server.on('request', (req, res) => {
               res.end('File size limit exceeded');
             }
           })
-          .pipe(ws)
-          .on('error', (err) => {
-            if (err.code === 'EEXIST') {
-              res.statusCode = 409;
-              res.end('File already exist!');
-            }
-          })
-          .on('close', () => {
-            res.statusCode = 201;
-            res.end('File has been uploaded');
-          });
+          .pipe(ws);
       break;
 
     default:
