@@ -25,7 +25,7 @@ router.get('/subscribe', async (ctx, next) => {
 router.post('/publish', async (ctx, next) => {
   const {message} = ctx.request.body;
   if (!message) {
-    ctx.throw(400, 'no massega');
+    ctx.throw(400, 'no message');
   }
 
   subscribers.forEach((resolve) => {
